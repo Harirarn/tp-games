@@ -82,14 +82,25 @@ def display(word, misGuessedLetter, correctGuessedLetter):
         else:
             progress += "-"
     print (progress)
-    if misGuessedLetter: print ("*{0:s}*".format(misGuessedLetter))
+    if misGuessedLetter: print ("*{0:s}*\n".format(misGuessedLetter))
     
 def playAgain():
     print ('Do you want to play again? (yes or No)')
     answer = raw_input().lower()
     return answer.startswith('y')
+    
+def welcome()
+    print ("        PT's   H A N G M A N           \n")
+def end(secretWord, victory):
+    if victory:
+        print ("Yeah!! You have correctly guessed the word. The word is '{0:s}'".format(secretWord))
+        print ('You Have Won!!!')
+    else:
+        print ('Sorry! The man is dead!! You have run out of guesses.')
+        print ("The correct word was '{0:s}'".format(secretWord))
+    
 
-print ("        PT's   H A N G M A N           \n")
+welcome()
 misGuessedLetter = ''
 correctGuessedLetter = ''
 secretWord = chooseRandomWord(words)
@@ -97,7 +108,6 @@ gameIsDone = False
 
 while not gameIsDone:
     display(secretWord, misGuessedLetter, correctGuessedLetter)
-    print''
     guess = guessLetter(correctGuessedLetter + misGuessedLetter)
     if guess in secretWord:
         correctGuessedLetter += guess
@@ -107,15 +117,13 @@ while not gameIsDone:
                 foundAllLetters = False
                 break
         if foundAllLetters:
-            print ("Yeah!! You have correctly guessed the word. The word is '{0:s}'".format(secretWord))
-            print ('You Have Won!!!')
+            end(secretWord, victory = True)
             gameIsDone = True
     else:
         misGuessedLetter += guess
         if len(misGuessedLetter) == len(HANGMAN)-1:
             display(secretWord, misGuessedLetter, correctGuessedLetter)
-            print ('Sorry! The man is dead!! You have run out of guesses.')
-            print ("The correct word was '{0:s}'".format(secretWord))
+            end(secretWord, victory = False)
             gameIsDone = True
     if gameIsDone:
         if playAgain():
